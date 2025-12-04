@@ -1,0 +1,10 @@
+<app-navigation-bar [username]="customer().username" [amountOfItemsInCart]="customer().shoppingCart.items.length"></app-navigation-bar>
+
+<h3>Track library</h3>
+<p>Discover and purchase your favorite music</p>
+
+<section>
+  @for (track of tracks(); track track.id) {
+    <app-track-card [track]="track" (addTrackEvent)="updateCart()"></app-track-card>
+  }
+</section>

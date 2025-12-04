@@ -1,0 +1,20 @@
+<h3>Upload new track</h3>
+<p>Add a new track to the music shop. Fill in all the details below.</p>
+
+<section>
+  <label>Track name *
+    <input [(ngModel)]="track.title" placeholder="e.g. Now or Never" required>
+  </label>
+  <label>Artist name *
+    <input [(ngModel)]="track.artistName" placeholder="e.g. Josh Butler" required>
+  </label>
+  <label>Duration in Seconds *
+    <input [(ngModel)]="track.durationInSeconds" placeholder="e.g. 211">
+  </label>
+  <label>Price in euros *
+    <input [(ngModel)]="track.priceInEuros" placeholder="e.g. 2.45">
+  </label>
+</section>
+
+
+<button (click)="addTrack()">Add Track to Shop</button>

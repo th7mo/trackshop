@@ -1,0 +1,18 @@
+.divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  color: #6c7a89;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 2px;
+  background-color: #d2d9e3;
+}
+
+.divider span {
+  padding: 0 1rem; /* <— add spacing left & right */
+}

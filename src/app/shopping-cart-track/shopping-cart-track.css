@@ -1,0 +1,26 @@
+:host {
+  display: grid;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+}
+
+img {
+  grid-column: 1 / 2;
+  grid-row: 1 / 4;
+}
+
+#title, #artist, #price {
+  grid-column: 2 / 3;
+}
+
+button {
+  grid-row: 2 / 4;
+  grid-column: 5 / 6;
+}

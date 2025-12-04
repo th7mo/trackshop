@@ -1,0 +1,7 @@
+<app-navigation-bar [username]="customer().username" [amountOfItemsInCart]="customer().shoppingCart.items.length"></app-navigation-bar>
+
+<section>
+  @for (shoppingCartItem of customer().shoppingCart.items; track shoppingCartItem.id) {
+    <app-shopping-cart-track [track]="shoppingCartItem.track" (removeTrackEvent)="updateCart()"></app-shopping-cart-track>
+  }
+</section>

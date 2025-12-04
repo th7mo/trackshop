@@ -1,0 +1,9 @@
+<h3>Hello!</h3>
+<p>Sign up to start buying tracks</p>
+<label for="username">Username *</label>
+<input type="text" [(ngModel)]="username" placeholder="username" id="username" required>
+<label for="password">Password *</label>
+<input type="password" [(ngModel)]="password" placeholder="password" id="password" required>
+<button (click)="register()">Register</button>
+<app-or-divider></app-or-divider>
+<a routerLink="/login">Already have an account? Login</a>

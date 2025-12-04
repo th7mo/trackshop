@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 2px solid black;
+  padding: 2rem;
+  background-color: white;
+}
+
+input {
+  background-color: aliceblue;
+  border: none;
+  padding: 0.3rem;
+  min-width: 350px;
+}
+
+label {
+  font-size: 0.8rem;
+}
+
+input {
+  font-size: 1rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+

@@ -1,0 +1,22 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  background-color: aliceblue;
+}
+
+button {
+  border: none;
+  background-color: lightblue;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lightskyblue;
+  }
+}

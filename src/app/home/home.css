@@ -1,0 +1,15 @@
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+h3, p {
+  text-align: center;
+}
+
+h3 {
+  font-size: 2rem;
+  margin-top: 2rem;
+}

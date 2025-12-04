@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 2px solid black;
+  padding: 2rem;
+  background-color: white;
+  min-width: 600px;
+}
+
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+input {
+  background-color: aliceblue;
+  border: none;
+  padding: 0.3rem;
+  min-width: 300px;
+}
+
+label {
+  font-size: 0.8rem;
+}
+
+input {
+  font-size: 1rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+button {
+  margin-top: 2rem;
+}

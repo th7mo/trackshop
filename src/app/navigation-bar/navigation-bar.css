@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  width: 100%;
+  background-color: white;
+  border-bottom: 2px solid black;
+}
+
+ol {
+  display: flex;
+  grid-gap: 1rem;
+  padding: 1rem;
+  list-style: none;
+  align-items: stretch;
+}
+
+li {
+  display: flex;
+  align-items: center;
+
+  &:first-child {
+    margin-right: auto;
+  }
+}
+
+a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+
+  &:visited {
+    color: black;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
