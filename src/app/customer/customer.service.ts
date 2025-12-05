@@ -56,7 +56,7 @@ export class CustomerService {
     return this.http.get<Customer>(url, {headers}).subscribe({
       next: customer => this.customer.set(customer),
       error: err => {
-        if (err.status === 401) this.router.navigate(['/login']);
+        if (err.status === 401) this.logOut();
       }
     });
   }
