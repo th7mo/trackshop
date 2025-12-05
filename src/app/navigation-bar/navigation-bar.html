@@ -1,9 +1,14 @@
 <ol>
   <li id="name">TrackShop</li>
+  @if (customer()) {
+    <li id="username">
+      <img ngSrc="/account.svg" width="24" height="24" alt="account icon"/>
+      {{customer()?.username }}</li>
+  }
   <li><a routerLink="/">Track Library</a></li>
   <li><a routerLink="/cart">Cart ({{ amountOfItemsInCart() }})</a></li>
 
-  @if (customer() === undefined) {
+  @if (!customer()) {
     <li><button (click)="logIn()">Log in</button></li>
   } @else {
     <li><button (click)="logOut()">Log out</button></li>

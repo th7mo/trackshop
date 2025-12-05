@@ -1,11 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CustomerService } from '../customer/customer.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-navigation-bar',
   imports: [
-    RouterLink
+    RouterLink,
+    NgOptimizedImage
   ],
   templateUrl: './navigation-bar.html',
   styleUrl: './navigation-bar.css',
