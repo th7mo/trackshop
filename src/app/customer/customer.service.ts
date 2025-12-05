@@ -1,12 +1,14 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Customer } from './customer';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
   private apiUrl = 'https://trackshop.th7mo.com/api';
+  private router = inject(Router);
 
   customerId: WritableSignal<number | null> = signal(null);
   customer: WritableSignal<Customer | undefined> = signal(undefined);
@@ -51,9 +53,12 @@ export class CustomerService {
     const headers = {Authorization: `Bearer ${jwt}`};
     const url = `${this.apiUrl}/customers/${this.customerId()}`;
 
-    return this.http.get<Customer>(url, {headers}).subscribe(
-      customer => this.customer.set(customer)
-    );
+    return this.http.get<Customer>(url, {headers}).subscribe({
+      next: customer => this.customer.set(customer),
+      error: err => {
+        if (err.status === 401) this.router.navigate(['/login']);
+      }
+    });
   }
 
   setCustomerId() {
