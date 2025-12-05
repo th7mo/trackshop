@@ -13,4 +13,10 @@ section {
 
 h3 {
   font-size: 3rem;
+  padding-top: 8rem;
+}
+
+p {
+  font-style: italic;
+  text-align: center;
 }

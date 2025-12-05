@@ -22,7 +22,6 @@ export const routes: Routes = [
     path: '',
     title: 'Home page',
     component: Home,
-    canActivate: [authGuard],
   },
   {
     path: 'admin',
@@ -34,6 +33,5 @@ export const routes: Routes = [
     path: 'cart',
     title: 'Cart',
     component: Cart,
-    canActivate: [authGuard],
   },
 ];

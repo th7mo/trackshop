@@ -3,6 +3,8 @@
   width: 100%;
   background-color: white;
   border-bottom: 2px solid black;
+  position: fixed;
+  z-index: 1;
 }
 
 ol {

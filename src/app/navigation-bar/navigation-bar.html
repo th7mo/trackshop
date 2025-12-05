@@ -2,5 +2,11 @@
   <li id="name">TrackShop</li>
   <li><a routerLink="/">Track Library</a></li>
   <li><a routerLink="/cart">Cart ({{ amountOfItemsInCart() }})</a></li>
-  <li><button (click)="logOut()">Log out</button></li>
+
+  @if (customer() === undefined) {
+    <li><button (click)="logIn()">Log in</button></li>
+  } @else {
+    <li><button (click)="logOut()">Log out</button></li>
+  }
+
 </ol>

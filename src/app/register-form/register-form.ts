@@ -23,7 +23,8 @@ export class RegisterForm {
   router = inject(Router);
 
   register() {
-    this.customerService.signUp(this.username, this.password);
-    this.router.navigate(['/']);
+    this.customerService.signUp(this.username, this.password).subscribe(
+      () => this.router.navigate(['/'])
+    );
   }
 }

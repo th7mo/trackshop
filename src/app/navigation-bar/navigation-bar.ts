@@ -1,5 +1,6 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { CustomerService } from '../customer/customer.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -11,11 +12,20 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class NavigationBar {
   router = inject(Router);
-  username = input<string>('username');
-  amountOfItemsInCart = input<number>(0);
+  customerService = inject(CustomerService);
+  customer = this.customerService.customer;
 
-  logOut() {
-    localStorage.removeItem('jwt');
+  logIn() {
     this.router.navigate(['/login']);
   }
+
+  logOut() {
+    this.customerService.logOut();
+    this.router.navigate(['/']);
+  }
+
+  amountOfItemsInCart = computed(() => {
+    const c = this.customer();
+    return c?.shoppingCart?.items?.length ?? 0;
+  });
 }

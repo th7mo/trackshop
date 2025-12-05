@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { TrackService } from '../track/track.service';
 import { Track } from '../track/track';
@@ -16,19 +16,19 @@ import { CustomerService } from '../customer/customer.service';
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-  tracks: WritableSignal<Track[]> = signal([]);
-  customer: WritableSignal<Customer> = signal({} as Customer);
-
   trackService = inject(TrackService);
   customerService = inject(CustomerService);
+  tracks: WritableSignal<Track[]> = signal([]);
+  customer = this.customerService.customer;
 
   ngOnInit() {
-    this.trackService.getTracks().subscribe(tracks => this.tracks.set(tracks));
-    this.customerService.getCustomer().subscribe(customer => this.customer.set(customer));
+    this.trackService.getTracks().subscribe(
+      tracks => this.tracks.set(tracks)
+    );
+    this.updateCart();
   }
 
   updateCart() {
-    this.customerService.getCustomer().subscribe(customer => this.customer.set(customer));
+    this.customerService.getCustomer();
   }
 }
-

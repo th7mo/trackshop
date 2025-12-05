@@ -17,7 +17,8 @@ export class ShoppingCartTrack {
   removeTrackEvent = output<number>();
 
   removeTrackFromCart() {
-    this.customerService.removeTrackToCart(this.track().id);
-    this.removeTrackEvent.emit(this.track().id);
+    this.customerService.removeTrackFromCart(this.track().id).subscribe(
+      _ => this.removeTrackEvent.emit(this.track().id)
+    );
   }
 }

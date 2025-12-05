@@ -1,7 +1,11 @@
-import { Component, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { CustomerService } from '../customer/customer.service';
-import { Customer } from '../customer/customer';
 import { ShoppingCartTrack } from '../shopping-cart-track/shopping-cart-track';
 
 @Component({
@@ -13,16 +17,21 @@ import { ShoppingCartTrack } from '../shopping-cart-track/shopping-cart-track';
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
-export class Cart {
-  customerService = inject(CustomerService);
-  customer: WritableSignal<Customer> = signal({} as Customer);
+export class Cart implements OnInit {
 
-  constructor(
-  ) {
-    this.customerService.getCustomer().subscribe(customer => this.customer.set(customer));
+  customerService = inject(CustomerService);
+  customer = this.customerService.customer;
+
+  ngOnInit() {
+    this.updateCart();
   }
 
   updateCart() {
-    this.customerService.getCustomer().subscribe(customer => this.customer.set(customer));
+    this.customerService.getCustomer();
   }
+
+  isEmptyCart = computed(() => {
+    const cart = this.customer()?.shoppingCart;
+    return !cart || cart.items.length === 0;
+  });
 }

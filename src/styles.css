@@ -11,6 +11,7 @@ body {
 
 button {
   border: none;
+  border-radius: 2px;
   background-color: lightblue;
   padding: 0.5rem 1rem;
   font-size: 1rem;

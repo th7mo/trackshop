@@ -10,9 +10,7 @@ export class TrackService {
   constructor(private http: HttpClient) { }
 
   getTracks(): Observable<Track[]> {
-    const jwt = localStorage.getItem('jwt');
-    const headers = { Authorization: `Bearer ${jwt}` };
-    return this.http.get<Track[]>(`${this.apiUrl}/tracks`, { headers });
+    return this.http.get<Track[]>(`${this.apiUrl}/tracks`);
   }
 
   postTrack(track: Track) {

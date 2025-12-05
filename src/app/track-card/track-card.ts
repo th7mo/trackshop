@@ -3,6 +3,8 @@ import { Track } from '../track/track';
 import { DurationPipe } from '../duration.pipe';
 import { NgOptimizedImage } from '@angular/common';
 import { CustomerService } from '../customer/customer.service';
+import { Router } from '@angular/router';
+import { routes } from '../app.routes';
 
 @Component({
   selector: 'app-track-card',
@@ -18,10 +20,16 @@ export class TrackCard {
   addTrackEvent = output<Track>();
 
   track = input.required<Track>();
+  router = inject(Router);
   customerService = inject(CustomerService);
 
   addTrackToCart() {
-    this.customerService.addTrackToCart(this.track().id);
-    this.addTrackEvent.emit(this.track());
+    if (!this.customerService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.customerService.addTrackToCart(this.track().id).subscribe(
+      _ => this.addTrackEvent.emit(this.track())
+    );
   }
 }

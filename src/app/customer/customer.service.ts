@@ -9,83 +9,95 @@ export class CustomerService {
   private apiUrl = 'https://trackshop.th7mo.com/api';
 
   customerId: WritableSignal<number | null> = signal(null);
-  customer: WritableSignal<Customer | null> = signal(null);
+  customer: WritableSignal<Customer | undefined> = signal(undefined);
 
   constructor(private http: HttpClient) {}
 
-  signUp(username: string, password: string) {
-    this.http.post<Customer>(`${this.apiUrl}/customers`, { username, password }).subscribe(
+  signUp(username: string, password: string): Observable<String> {
+    const url = `${this.apiUrl}/customers`;
+    return this.http.post<Customer>(url, { username, password }).pipe(
       _ => this.login(username, password)
     );
   }
 
   login(username: string, password: string): Observable<string> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password }, { responseType: 'text' })
+    const url = `${this.apiUrl}/login`;
+    return this.http.post(url, { username, password }, { responseType: 'text' })
       .pipe(
         tap(token => {
           localStorage.setItem("jwt", token);
           this.customerId.set(jwtDecode<{ id: number }>(token).id);
+          this.getCustomer();
         })
       );
   }
 
-  getCustomer(): Observable<Customer> {
-    if (this.customerId() === null) {
-      this.setCustomerId();
+  logOut() {
+    localStorage.removeItem("jwt");
+    this.customerId.set(null);
+    this.customer.set(undefined);
+  }
+
+  getCustomer() {
+    if (!this.customerId()) {
+      if (localStorage.getItem("jwt")) {
+        this.setCustomerId();
+      } else {
+        return;
+      }
     }
 
     const jwt = localStorage.getItem('jwt');
     const headers = {Authorization: `Bearer ${jwt}`};
+    const url = `${this.apiUrl}/customers/${this.customerId()}`;
 
-    return this.http.get<Customer>(`${this.apiUrl}/customers/${this.customerId()}`, {headers});
+    return this.http.get<Customer>(url, {headers}).subscribe(
+      customer => this.customer.set(customer)
+    );
   }
 
   setCustomerId() {
     const token = localStorage.getItem("jwt");
     if (!token) return;
 
-    const decoded = jwtDecode<{ id: number }>(token);
-    this.customerId.set(decoded.id);
+    const decodedJwt = jwtDecode<{ id: number }>(token);
+    this.customerId.set(decodedJwt.id);
   }
 
-  getRole(): string | null {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      console.log("No token yet");
+  isAdmin(): boolean {
+    return this.getRoleFromJwt() === 'ROLE_ADMIN';
+  }
+
+  private getRoleFromJwt(): string | null {
+    const jwt = localStorage.getItem("jwt");
+    if (!jwt) {
       return null;
     }
 
     try {
-      const decoded = jwtDecode<{ role: { authority: string }[] }>(token);
-      return decoded.role?.[0]?.authority ?? null;
+      const decodedJwt = jwtDecode<{ role: { authority: string }[] }>(jwt);
+      return decodedJwt.role?.[0]?.authority ?? null;
     } catch {
       return null;
     }
-  }
-
-  isAdmin(): boolean {
-    return this.getRole() === 'ROLE_ADMIN';
   }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem("jwt");
   }
 
-  addTrackToCart(trackId: number) {
-    const jwt = localStorage.getItem('jwt');
-    const headers = { Authorization: `Bearer ${jwt}` };
-
-    return this.http
-      .post(`${this.apiUrl}/customers/${this.customerId()}/cart/items/${trackId}`, null, { headers })
-      .subscribe();
+  addTrackToCart(trackId: number): Observable<Object> {
+    const url = `${this.apiUrl}/customers/${this.customerId()}/cart/items/${trackId}`;
+    return this.http.post(url, null, { headers: this.buildHeaders() })
   }
 
-  removeTrackToCart(trackId: number) {
-    const jwt = localStorage.getItem('jwt');
-    const headers = { Authorization: `Bearer ${jwt}` };
+  removeTrackFromCart(trackId: number): Observable<Object> {
+    const url = `${this.apiUrl}/customers/${this.customerId()}/cart/items/${trackId}`;
+    return this.http.delete(url, { headers: this.buildHeaders() })
+  }
 
-    return this.http
-      .delete(`${this.apiUrl}/customers/${this.customerId()}/cart/items/${trackId}`, { headers })
-      .subscribe();
+  private buildHeaders(): { [key: string]: string } {
+    const jwt = localStorage.getItem('jwt');
+    return {Authorization: `Bearer ${jwt}`};
   }
 }

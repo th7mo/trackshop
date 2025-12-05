@@ -1,7 +1,13 @@
-<app-navigation-bar [username]="customer().username" [amountOfItemsInCart]="customer().shoppingCart.items.length"></app-navigation-bar>
+<app-navigation-bar></app-navigation-bar>
 <h3>My Shopping Cart</h3>
+
 <section>
-  @for (shoppingCartItem of customer().shoppingCart.items; track shoppingCartItem.id) {
-    <app-shopping-cart-track [track]="shoppingCartItem.track" (removeTrackEvent)="updateCart()"></app-shopping-cart-track>
+  @if (isEmptyCart()) {
+    <p>No items in the cart yet!</p>
+    <p>Go to the Track Library to add tracks to your shopping cart.</p>
+  } @else {
+    @for (shoppingCartItem of customer()!.shoppingCart.items; track shoppingCartItem.id) {
+      <app-shopping-cart-track [track]="shoppingCartItem.track" (removeTrackEvent)="updateCart()"></app-shopping-cart-track>
+    }
   }
 </section>
