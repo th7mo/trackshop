@@ -15,10 +15,12 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
-  signUp(username: string, password: string): Observable<String> {
+  signUp(username: string, password: string): Observable<Customer> {
     const url = `${this.apiUrl}/customers`;
     return this.http.post<Customer>(url, { username, password }).pipe(
-      _ => this.login(username, password)
+      tap(_ => {
+        this.login(username, password).subscribe();
+      })
     );
   }
 
